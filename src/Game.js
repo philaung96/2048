@@ -56,8 +56,11 @@ const Game = () => {
 		}
 		// populate the empty spot
 		tiles[random] = 2;
-		// update the state
-		setBoard({ ...board, tiles: tiles });
+		// if every tile is populated, game over
+		if (tiles.every((tile) => tile > 0)) startGame();
+		// else, update the state for component to
+		// rerender
+		else setBoard({ ...board, tiles: tiles });
 	};
 
 	// Update the tile that's value is 0 if possible
@@ -194,7 +197,7 @@ const Game = () => {
 		}
 	};
 
-	// on key press, call the handleKeyPress function 
+	// on key press, call the handleKeyPress function
 	// with the key value as parameter
 	$('html').off('keyup');
 	$('html').on('keyup', (e) => handleKeyPress(e.key));
