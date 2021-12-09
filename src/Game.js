@@ -7,6 +7,9 @@ const Game = () => {
 		tiles: [],
 		count: 1,
 	});
+	const tiles = [...board.tiles];
+
+	// ********** COMPONENT RERENDER FUNCTION **********
 
 	// start the game on load
 	useEffect(() => {
@@ -29,25 +32,9 @@ const Game = () => {
 		setBoard({ tiles: tilesArr, count: 1 });
 	};
 
-	// translate rows and cols into one dimensional index
-	const oneDIndex = (row, col) => {
-		return row * 4 + col;
-	};
-
-	// Combine two tiles into one by indices
-	// from -> index of tile combining from -> int
-	// to -> index of tile combining into -> int
-	const combineTwoTiles = (tiles, from, to) => {
-		// combine two tiles into 'to' index
-		tiles[to] = tiles[to] + tiles[from];
-		// empty the tile at 'from' index
-		tiles[from] = 0;
-	};
-
 	// Update the state for component to rerender the
 	// update tiles
-	// tiles -> updated array of tiles -> [int]
-	const updateBoard = (tiles) => {
+	const updateBoard = () => {
 		// get a random value between 0-15
 		let random = Math.floor(Math.random() * 16);
 		// keep getting random value till there is an empty spot
@@ -63,10 +50,30 @@ const Game = () => {
 		else setBoard({ ...board, tiles: tiles });
 	};
 
+	// ********** HELPER FUNCTIONS **********
+
+	// translate rows and cols into one dimensional index
+	const oneDIndex = (row, col) => {
+		return row * 4 + col;
+	};
+
+	// Combine two tiles into one by indices
+	// from -> index of tile combining from -> int
+	// to -> index of tile combining into -> int
+	const combineTwoTiles = (from, to) => {
+		// combine two tiles into 'to' index
+		tiles[to] = tiles[to] + tiles[from];
+		// empty the tile at 'from' index
+		tiles[from] = 0;
+	};
+
+	// ********** MOVEMENTS **********
+
+	// ========== MOVING TILES TO RIGHT ==========
+
 	// Update the tile that's value is 0 if possible
-	// tiles -> array of tiles -> [int]
 	// index -> index of the that tile that is 0
-	const updateZeroTileRight = (tiles, index) => {
+	const updateZeroTileRight = (index) => {
 		// keep track of the current row
 		const currentRow = Math.floor(index / 4);
 		// one index left of tile that is 0
@@ -84,9 +91,9 @@ const Game = () => {
 					tiles[left] === tiles[index + 1] &&
 					Math.floor((index + 1) / 4) === currentRow
 				)
-					combineTwoTiles(tiles, left, index + 1);
+					combineTwoTiles(left, index + 1);
 				// else, move the tile on left to tile that is 0
-				else combineTwoTiles(tiles, left, index);
+				else combineTwoTiles(left, index);
 				// then exit the loop
 				exit = true;
 			}
@@ -104,9 +111,7 @@ const Game = () => {
 	// row, then move none 0 tiles to right if there is
 	// a space
 	const moveRight = () => {
-		console.log('moving right');
 		// grab a clone of current tiles
-		let updatedTiles = [...board.tiles];
 		// iterate through each rows
 		for (let row = 0; row < 4; row++) {
 			// iterate through columns from right to left
@@ -117,22 +122,22 @@ const Game = () => {
 				// and one dimensional index of tile to
 				// left
 				let leftIndex = oneDIndex(row, col - 1);
-				// if the tile is 0, find a tile of left
+				// if the tile is 0, find a tile on left
 				// that is not 0 if that exists
-				if (updatedTiles[index] === 0) updateZeroTileRight(updatedTiles, index);
+				if (tiles[index] === 0) updateZeroTileRight(index);
 				else {
 					// if the tile has value,
 					// check the tile left of it
 					// if the tile on left is 0,
 					// update that tile to not be 0 if possible
-					if (updatedTiles[leftIndex] === 0) {
-						updateZeroTileRight(updatedTiles, leftIndex);
+					if (tiles[leftIndex] === 0) {
+						updateZeroTileRight(leftIndex);
 					}
 					// else if the tile on left and
 					// current tile has same value
-					else if (updatedTiles[index] === updatedTiles[leftIndex]) {
+					else if (tiles[index] === tiles[leftIndex]) {
 						// combine the two tiles into one
-						combineTwoTiles(updatedTiles, leftIndex, index);
+						combineTwoTiles(leftIndex, index);
 					}
 					// else do nothing
 				}
@@ -140,7 +145,46 @@ const Game = () => {
 		}
 		// update the state to rerender the component
 		// when done updating the tiles
-		updateBoard(updatedTiles);
+		updateBoard();
+	};
+
+	// ========== MOVING TILES TO LEFT ==========
+
+	// Update the tile that's value is 0 if possible
+	// index -> index of the that tile that is 0
+	const updateZeroTileLeft = (index) => {
+		// keep track of the current row
+		const currentRow = Math.floor(index / 4);
+		// one index right of tile that is 0
+		let right = index + 1;
+		// condition to exit the loop
+		let exit = false;
+		while (!exit) {
+			// if the tile on right of 0 is not 0
+			// and index on right is on current row
+			if (tiles[right] > 0 && Math.floor(right / 4) === currentRow) {
+				// if the tile of right is the same as
+				// the tile on left of 0
+				// and they are on the same row,
+				// combine them instead
+				if (
+					tiles[right] === tiles[index - 1] &&
+					Math.floor((index - 1) / 4) === currentRow
+				)
+					combineTwoTiles(right, index - 1);
+				// else, move the tile on right to tile
+				// that is 0
+				else combineTwoTiles(right, index);
+				// then exit the loop
+				exit = true;
+			}
+			// keep going right
+			right++;
+			// if there is no more right to go or
+			// index is out of current row
+			// exit the loop
+			if (right > 15 || Math.floor(right / 4) !== currentRow) exit = true;
+		}
 	};
 
 	// Move the individual tiles to left if possible
@@ -149,6 +193,41 @@ const Game = () => {
 	// a space
 	const moveLeft = () => {
 		console.log('moving left');
+		// iterate through each rows
+		for (let row = 0; row < 4; row++) {
+			// iterate through columns from left to right
+			// excluding the last column
+			for (let col = 0; col < 3; col++) {
+				// one dimensional index of the tile
+				let index = oneDIndex(row, col);
+				// and one dimensional index of tile to
+				// right
+				let rightIndex = oneDIndex(row, col + 1);
+				// if the tile is 0, find a tile on right
+				// that is not 0 if that exists
+				if (tiles[index] === 0) updateZeroTileLeft(index);
+				else {
+					// if the tile has value,
+					// check the tile right of it
+					// if the tile on right is 0,
+					// update that tile to not be 0 if
+					// possible
+					if (tiles[rightIndex] === 0) {
+						updateZeroTileLeft(rightIndex);
+					}
+					// else if the tile on right and
+					// current tile has same value
+					else if (tiles[index] === tiles[rightIndex]) {
+						// combine the two tiles into one
+						combineTwoTiles(rightIndex, index);
+					}
+					// else do nothing
+				}
+			}
+		}
+		// update the state to rerender the component
+		// when done updating the tiles
+		updateBoard();
 	};
 
 	// Move the individual tiles to up if possible
