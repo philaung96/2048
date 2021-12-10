@@ -1,4 +1,5 @@
 import Grid from './Grid';
+import Arrows from './Arrows';
 import Instruction from './Instruction';
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
@@ -423,6 +424,7 @@ const Game = () => {
 				score={board.score}
 				handleKeyPress={handleKeyPress}
 			/>
+			<Arrows up={moveUp} right={moveRight} down={moveDown} left={moveLeft} />
 			<Instruction />
 		</div>
 	);
