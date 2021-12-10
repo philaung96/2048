@@ -125,6 +125,8 @@ const Game = () => {
 					// into current
 					if (tiles[currentIndex] === 0) {
 						combineTwoTiles(indexOnLeft, currentIndex);
+						// stay at current place and
+						// check one more time
 						col++;
 					}
 					// is not zero
@@ -201,6 +203,8 @@ const Game = () => {
 					// into current
 					if (tiles[currentIndex] === 0) {
 						combineTwoTiles(indexOnRight, currentIndex);
+						// stay at current place and
+						// check one more time
 						col--;
 					}
 					// is not zero
@@ -274,6 +278,8 @@ const Game = () => {
 					// into current
 					if (tiles[currentIndex] === 0) {
 						combineTwoTiles(indexBelow, currentIndex);
+						// stay at current place and
+						// check one more time
 						row--;
 					}
 					// is not zero
@@ -346,6 +352,8 @@ const Game = () => {
 					// into current
 					if (tiles[currentIndex] === 0) {
 						combineTwoTiles(indexAbove, currentIndex);
+						// stay at current place and
+						// check one more time
 						row++;
 					}
 					// is not zero
@@ -410,7 +418,10 @@ const Game = () => {
 	$('body').off('keyup');
 	$('body').on('keyup', (e) => {
 		// prevent scrolling
-		e.preventDefault();
+		if (['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
+			console.log(e);
+			e.preventDefault();
+		}
 		handleKeyPress(e.key);
 	});
 
