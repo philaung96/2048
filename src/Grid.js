@@ -7,8 +7,12 @@ const Grid = (props) => {
 				<h2>{tile ? tile : ''}</h2>
 			</div>
 		));
-
-	return <div id='grid'>{tilesJsx && tilesJsx}</div>;
+	return (
+		<>
+			<div>Score : {props.score}</div>
+			<div id='grid'>{tilesJsx && tilesJsx}</div>
+		</>
+	);
 };
 
 export default Grid;

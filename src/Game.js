@@ -5,10 +5,11 @@ import $ from 'jquery';
 const Game = () => {
 	const [board, setBoard] = useState({
 		tiles: [],
-		count: 1,
+		score: 0,
 	});
 	const tiles = [...board.tiles];
-	console.log('board ', tiles);
+	let currentScore = board.score;
+	let didMoved = false;
 
 	// ********** COMPONENT RERENDER FUNCTION **********
 
@@ -22,7 +23,6 @@ const Game = () => {
 		// create a random index from 0-15
 		let random = Math.floor(Math.random() * 16);
 		const tilesArr = [];
-		console.log('Setting Board');
 		// place 2 at the random index
 		// and 0 at the rest
 		for (let i = 0; i < 16; i++) {
@@ -30,7 +30,7 @@ const Game = () => {
 			else tilesArr[i] = 0;
 		}
 		// update the state for component to rerender
-		setBoard({ tiles: tilesArr, count: 1 });
+		setBoard({ tiles: tilesArr, score: 0 });
 	};
 
 	// Update the state for component to rerender the
@@ -39,7 +39,7 @@ const Game = () => {
 		// get a random value between 0-15
 		let random = Math.floor(Math.random() * 16);
 		// keep getting random value till there is an empty spot
-		while (board.tiles[random] > 0) {
+		while (tiles[random] > 0) {
 			random = Math.floor(Math.random() * 16);
 		}
 		// populate the empty spot
@@ -48,7 +48,7 @@ const Game = () => {
 		if (tiles.every((tile) => tile > 0)) startGame();
 		// else, update the state for component to
 		// rerender
-		else setBoard({ ...board, tiles: tiles });
+		else setBoard({ tiles: tiles, score: currentScore });
 	};
 
 	// ********** HELPER FUNCTIONS **********
@@ -62,11 +62,15 @@ const Game = () => {
 	// from -> index of tile combining from -> int
 	// to -> index of tile combining into -> int
 	const combineTwoTiles = (from, to) => {
-		console.log('moving ', from, ' to ', to);
+		let total = tiles[to] + tiles[from];
+		// if the tiles combine, update score
+		if (tiles[to] === tiles[from]) currentScore += total;
 		// combine two tiles into 'to' index
-		tiles[to] = tiles[to] + tiles[from];
+		tiles[to] = total;
 		// empty the tile at 'from' index
 		tiles[from] = 0;
+		// set didMoved to true for component to rerender
+		didMoved = true;
 	};
 
 	// ********** MOVEMENTS **********
@@ -102,7 +106,6 @@ const Game = () => {
 	// row, then move none 0 tiles to right if there is
 	// a space
 	const moveRight = () => {
-		console.log('moving right');
 		// iterate through each rows
 		for (let row = 0; row < 4; row++) {
 			// iterate through columns from right to left
@@ -144,8 +147,8 @@ const Game = () => {
 			}
 		}
 		// update the state to rerender the component
-		// when done updating the tiles
-		updateBoard();
+		// if the tile(s) moved
+		if (didMoved) updateBoard();
 	};
 
 	// ========== MOVING TILES TO LEFT ==========
@@ -179,7 +182,6 @@ const Game = () => {
 	// row, then move none 0 tiles to left if there is
 	// a space
 	const moveLeft = () => {
-		console.log('moving left');
 		// iterate through each rows
 		for (let row = 0; row < 4; row++) {
 			// iterate through columns from left to right
@@ -221,8 +223,8 @@ const Game = () => {
 			}
 		}
 		// update the state to rerender the component
-		// when done updating the tiles
-		updateBoard();
+		// if the tile(s) moved
+		if (didMoved) updateBoard();
 	};
 
 	// ========== MOVING TILES UP ==========
@@ -254,7 +256,6 @@ const Game = () => {
 	// contains that col , then move none 0 tiles up
 	// if there is a space
 	const moveUp = () => {
-		console.log('moving up');
 		// iterate through each columns left to right
 		for (let col = 0; col < 4; col++) {
 			// iterate through rows from top to bottom
@@ -294,8 +295,8 @@ const Game = () => {
 			}
 		}
 		// update the state to rerender the component
-		// when done updating the tiles
-		updateBoard();
+		// if the tile(s) moved
+		if (didMoved) updateBoard();
 	};
 
 	// ========== MOVING TILES DOWN ==========
@@ -327,7 +328,6 @@ const Game = () => {
 	// contains that col , then move none 0 tiles down
 	// if there is a space
 	const moveDown = () => {
-		console.log('moving down');
 		// iterate through each columns left to right
 		for (let col = 0; col < 4; col++) {
 			// iterate through rows from top to bottom
@@ -367,8 +367,8 @@ const Game = () => {
 			}
 		}
 		// update the state to rerender the component
-		// when done updating the tiles
-		updateBoard();
+		// if the tile(s) moved
+		if (didMoved) updateBoard();
 	};
 
 	// ********** HANDLE KEY PRESS **********
@@ -412,7 +412,11 @@ const Game = () => {
 
 	return (
 		<div id='game'>
-			<Grid tiles={board.tiles} handleKeyPress={handleKeyPress} />
+			<Grid
+				tiles={board.tiles}
+				score={board.score}
+				handleKeyPress={handleKeyPress}
+			/>
 		</div>
 	);
 };
