@@ -6,6 +6,17 @@ const Instruction = () => {
 				Use Arrow Keys To Move The Tiles
 				<br />
 				Tiles With The Same Number Will Combine Into One
+				<br />
+				<br />
+				Check Out The Git Hub Repo.
+				<br />
+				<br />
+				<a
+					href='https://github.com/philaung96/2048'
+					target='_blank'
+					rel='noreferrer'>
+					<i>HERE</i>
+				</a>
 			</p>
 		</div>
 	);
