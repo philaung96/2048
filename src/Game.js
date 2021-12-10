@@ -1,4 +1,5 @@
 import Grid from './Grid';
+import Instruction from './Instruction';
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
@@ -405,18 +406,24 @@ const Game = () => {
 
 	// on key press, call the handleKeyPress function
 	// with the key value as parameter
-	$('html').off('keyup');
-	$('html').on('keyup', (e) => handleKeyPress(e.key));
+	$('body').off('keyup');
+	$('body').on('keyup', (e) => {
+		// prevent scrolling
+		e.preventDefault();
+		handleKeyPress(e.key);
+	});
 
 	// ========== END OF FUNCTIONALITY ==========
 
 	return (
 		<div id='game'>
+			<h1>2048</h1>
 			<Grid
 				tiles={board.tiles}
 				score={board.score}
 				handleKeyPress={handleKeyPress}
 			/>
+			<Instruction />
 		</div>
 	);
 };

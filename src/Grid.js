@@ -9,7 +9,7 @@ const Grid = (props) => {
 		));
 	return (
 		<>
-			<div>Score : {props.score}</div>
+			<h3 id='score'>SCORE : {props.score}</h3>
 			<div id='grid'>{tilesJsx && tilesJsx}</div>
 		</>
 	);
