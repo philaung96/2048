@@ -44,8 +44,19 @@ const Game = () => {
 			if (i === random) tilesArr[i] = 2;
 			else tilesArr[i] = 0;
 		}
+		const data = JSON.parse(localStorage.getItem('data'));
+		let localBest = 0;
+		if (data) localBest = data.localBest;
+		localStorage.setItem(
+			'data',
+			JSON.stringify({
+				localTiles: [...tiles],
+				localBest: localBest,
+				localScore: currentScore,
+			})
+		);
 		// update the state for component to rerender
-		setBoard({ tiles: tilesArr, best: 0, score: 0 });
+		setBoard({ tiles: tilesArr, best: localBest, score: 0 });
 	};
 
 	// Check if any tile is movable to bottom or right
