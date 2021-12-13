@@ -5,19 +5,32 @@ import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 const Game = () => {
-	const [board, setBoard] = useState({
-		tiles: [],
-		score: 0,
-	});
-	const tiles = [...board.tiles];
-	let currentScore = board.score;
+	const [board, setBoard] = useState(null);
+
+	let tiles = [];
+	let currentScore = 0;
 	let didMoved = false;
 
-	// ********** COMPONENT RERENDER FUNCTION **********
+	if (board) {
+		tiles = [...board.tiles];
+		currentScore = board.score;
+	}
 
-	// start the game on load
+	// ********** COMPONENT RERENDER FUNCTIONS **********
+
+	// on initial load
 	useEffect(() => {
-		startGame();
+		// if there is data in local storage grab that data and update state
+		if (localStorage.data) {
+			const localData = JSON.parse(localStorage.getItem('data'));
+			setBoard({
+				tiles: [...localData.localTiles],
+				best: localData.localBest,
+				score: localData.localScore,
+			});
+		}
+		// else keep current state data
+		else startGame();
 	}, []);
 
 	// Initialize the Board
@@ -32,7 +45,7 @@ const Game = () => {
 			else tilesArr[i] = 0;
 		}
 		// update the state for component to rerender
-		setBoard({ tiles: tilesArr, score: 0 });
+		setBoard({ tiles: tilesArr, best: 0, score: 0 });
 	};
 
 	// Check if any tile is movable to bottom or right
@@ -98,18 +111,43 @@ const Game = () => {
 	const updateBoard = () => {
 		// get a random value between 0-15
 		let random = Math.floor(Math.random() * 16);
+
 		// keep getting random value till there is an empty spot
 		while (tiles[random] > 0) {
 			random = Math.floor(Math.random() * 16);
 		}
+
 		// populate the empty spot
 		tiles[random] = 2;
+
+		// ========== LOCAL STORAGE ==========
+		const localData = JSON.parse(localStorage.getItem('data'));
+
+		// if current score is higher than one in local
+		// save current as best else keep local best
+		let maxScore = 0;
+		currentScore > localData.localBest
+			? (maxScore = currentScore)
+			: (maxScore = localData.localBest);
+
+		// store data to localStorage before changing
+		// state
+		localStorage.setItem(
+			'data',
+			JSON.stringify({
+				localTiles: [...tiles],
+				localBest: maxScore,
+				localScore: currentScore,
+			})
+		);
+		// ========== LOCAL STORAGE ==========
+
 		// if every tile is populated, and no
 		// possibility to move any way, game over
 		if (tiles.every((tile) => tile > 0) && !movable()) gameOver();
 		// else, update the state for component to
 		// rerender
-		else setBoard({ tiles: tiles, score: currentScore });
+		else setBoard({ tiles: tiles, best: maxScore, score: currentScore });
 	};
 
 	// ********** HELPER FUNCTIONS **********
@@ -489,12 +527,17 @@ const Game = () => {
 	return (
 		<div id='game'>
 			<h1>2048</h1>
-			<Grid
-				tiles={board.tiles}
-				score={board.score}
-				handleKeyPress={handleKeyPress}
-			/>
-			<Arrows up={moveUp} right={moveRight} down={moveDown} left={moveLeft} />
+			{board && (
+				<Grid
+					tiles={board.tiles}
+					score={board.score}
+					best={board.best}
+					handleKeyPress={handleKeyPress}
+				/>
+			)}
+			{board && (
+				<Arrows up={moveUp} right={moveRight} down={moveDown} left={moveLeft} />
+			)}
 			<Instruction />
 		</div>
 	);
