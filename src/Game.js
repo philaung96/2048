@@ -35,18 +35,19 @@ const Game = () => {
 		setBoard({ tiles: tilesArr, score: 0 });
 	};
 
-	// Check if any tile is movable
+	// Check if any tile is movable to bottom or right
+	// only bottom or right since the iteration is done
+	// top to bottom, left to right
 	// Should only be called when all tiles are populated
 	// return -> boolean
 	const movable = () => {
 		let isMovable = false;
-		const topMovable = (index) => {
-			// if the top tile exist and the top tile has
-			// same value as tile at index, return true
-			// if not, return false
-			if (index - 4 > 0 && tiles[index] === tiles[index - 4]) return true;
-			else return false;
-		};
+
+		// checks if the tile below is same as tile at
+		// index
+		// index -> index of a tile -> int
+		// return -> true if two tiles are same else
+		// false
 		const bottomMovable = (index) => {
 			// if the bottom tile exist and the bottom
 			// tile has same value as tile at index,
@@ -54,47 +55,30 @@ const Game = () => {
 			if (index + 4 < 15 && tiles[index] === tiles[index + 4]) return true;
 			else return false;
 		};
+
+		// checks if the tile on right is same as tile at
+		// index
+		// index -> index of a tile -> int
+		// return -> true if two tiles are same else
+		// false
 		const rightMovable = (index) => {
 			const initialRow = index / 4;
 			// if the tile at right is not on same row as
-			// current tile or current is last index(15)
-			// or current tile and tile on right are not
-			// the same, return false. If not, return
-			// true
-			if (
-				(index + 1) / 4 !== initialRow ||
-				index + 1 > 15 ||
-				tiles[index] !== tiles[index + 1]
-			)
-				return false;
-			return true;
-		};
-		const leftMovable = (index) => {
-			const initialRow = index / 4;
-			// if the tile on left is not on same row as
-			// current tile or current is first index(0)
-			// or current tile and tile on left are not
-			// the same, return false. If not, return
-			// true
-			if (
-				(index - 1) / 4 !== initialRow ||
-				index - 1 < 0 ||
-				tiles[index] !== tiles[index - 1]
-			)
+			// current tile or current tile and tile on
+			// right are not the same, return false. If
+			// not, return true
+			if ((index + 1) / 4 !== initialRow || tiles[index] !== tiles[index + 1])
 				return false;
 			return true;
 		};
 
-		for (let index = 0; index < 16; index++) {
-			// if any tile is movable to any possible
-			// direction set return value true and quit
-			// iterating over tiles
-			if (
-				topMovable(index) ||
-				bottomMovable(index) ||
-				rightMovable(index) ||
-				leftMovable(index)
-			) {
+		// no need to check last index since the one
+		// before last will check if they are the same
+		for (let index = 0; index < 15; index++) {
+			// if any tile on bottom or right is same as
+			// current tile set return value true and
+			// quite iterating over tiles
+			if (bottomMovable(index) || rightMovable(index)) {
 				isMovable = true;
 				break;
 			}
@@ -102,7 +86,7 @@ const Game = () => {
 
 		// return false by default
 		// should be false if only all 16 tiles aren't
-		// movable on all possible directions
+		// movable
 		return isMovable;
 	};
 
