@@ -1,7 +1,7 @@
 # 2048 CLONE
 
 ## About
-This is my take on the IOS game 2048 to get myself more practice on frontend as well as a basic game logic. I chose to make a clone of this game as I fairly enjoy playing it myself. 
+This is my take on the IOS game 2048. I created this app as a project for my [portfolio](https://philaung96.github.io/) as well as to get myself more practice on frontend, and a basic game logic. I chose to make a clone of this game as I fairly enjoy playing it myself. 
 
 ## Tools
 - HTML
@@ -47,7 +47,7 @@ This is my take on the IOS game 2048 to get myself more practice on frontend as 
 
 ## Design Choice
 
-I chose to have the tiles as a 1D array instead of 2D and render them on 2D using CSS Grid. The iteration of tiles are done using 2D structure, thus I convert row + col variable into one D index this way.
+I chose to have the tiles as a 1D array instead of 2D and render them on 2D using CSS Grid. The iteration of tiles are done using 2D structure, thus I converted row and col variables into one D index this way.
 
 ```js
 const oneDIndex = (row, col) => {

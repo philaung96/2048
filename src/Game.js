@@ -85,8 +85,6 @@ const Game = () => {
 		}
 
 		// return false by default
-		// should be false if only all 16 tiles aren't
-		// movable
 		return isMovable;
 	};
 
