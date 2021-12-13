@@ -35,6 +35,82 @@ const Game = () => {
 		setBoard({ tiles: tilesArr, score: 0 });
 	};
 
+	// Check if any tile is movable
+	// Should only be called when all tiles are populated
+	// return -> boolean
+	const movable = () => {
+		let isMovable = false;
+		const topMovable = (index) => {
+			// if the top tile exist and the top tile has
+			// same value as tile at index, return true
+			// if not, return false
+			if (index - 4 > 0 && tiles[index] === tiles[index - 4]) return true;
+			else return false;
+		};
+		const bottomMovable = (index) => {
+			// if the bottom tile exist and the bottom
+			// tile has same value as tile at index,
+			// return true. If not, return false
+			if (index + 4 < 15 && tiles[index] === tiles[index + 4]) return true;
+			else return false;
+		};
+		const rightMovable = (index) => {
+			const initialRow = index / 4;
+			// if the tile at right is not on same row as
+			// current tile or current is last index(15)
+			// or current tile and tile on right are not
+			// the same, return false. If not, return
+			// true
+			if (
+				(index + 1) / 4 !== initialRow ||
+				index + 1 > 15 ||
+				tiles[index] !== tiles[index + 1]
+			)
+				return false;
+			return true;
+		};
+		const leftMovable = (index) => {
+			const initialRow = index / 4;
+			// if the tile on left is not on same row as
+			// current tile or current is first index(0)
+			// or current tile and tile on left are not
+			// the same, return false. If not, return
+			// true
+			if (
+				(index - 1) / 4 !== initialRow ||
+				index - 1 < 0 ||
+				tiles[index] !== tiles[index - 1]
+			)
+				return false;
+			return true;
+		};
+
+		for (let index = 0; index < 16; index++) {
+			// if any tile is movable to any possible
+			// direction set return value true and quit
+			// iterating over tiles
+			if (
+				topMovable(index) ||
+				bottomMovable(index) ||
+				rightMovable(index) ||
+				leftMovable(index)
+			) {
+				isMovable = true;
+				break;
+			}
+		}
+
+		// return false by default
+		// should be false if only all 16 tiles aren't
+		// movable on all possible directions
+		return isMovable;
+	};
+
+	const gameOver = () => {
+		console.log('game over');
+		startGame();
+	};
+
 	// Update the state for component to rerender the
 	// update tiles
 	const updateBoard = () => {
@@ -46,8 +122,9 @@ const Game = () => {
 		}
 		// populate the empty spot
 		tiles[random] = 2;
-		// if every tile is populated, game over
-		if (tiles.every((tile) => tile > 0)) startGame();
+		// if every tile is populated, and no
+		// possibility to move any way, game over
+		if (tiles.every((tile) => tile > 0) && !movable()) gameOver();
 		// else, update the state for component to
 		// rerender
 		else setBoard({ tiles: tiles, score: currentScore });

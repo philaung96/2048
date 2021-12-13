@@ -25,7 +25,7 @@ This is my take on the IOS game 2048 to get myself more practice on frontend as 
     - If arrow keys are entered or arrow icons are clicked,
         - move the grid accordingly
         - generate a number on empty tile if there is a movement
-        - reset game if all tiles are occupied
+        - game over if all the tiles are populated, and no movement is possible 
     - If any other key not arrows are pressed, do nothing
 
 ### Movement (Right)
