@@ -7,9 +7,7 @@ const Instruction = () => {
 				<br />
 				Tiles With The Same Number Will Combine Into One
 				<br />
-				<br />
 				Check Out The Git Hub Repo.
-				<br />
 				<br />
 				<a
 					href='https://github.com/philaung96/2048'

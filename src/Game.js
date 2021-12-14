@@ -526,10 +526,14 @@ const Game = () => {
 	$('body').off('keyup');
 	$('body').on('keyup', (e) => {
 		// prevent scrolling
-		if (['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
-			console.log(e);
-			e.preventDefault();
-		}
+		// if (['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
+			// console.log(e);
+			// e.preventDefault();
+		// }
+		e.preventDefault();
+		// console.log(e);
+		// console.log(e.target)
+		// console.log(e.key)
 		handleKeyPress(e.key);
 	});
 

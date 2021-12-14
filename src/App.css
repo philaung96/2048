@@ -14,17 +14,20 @@ i {
   font-weight: bolder;
 }
 
+
 h1 {
   font-size: 50px;
 }
 
 p {
+  margin: 0;
   line-height: 1.5em;
+  font-size: 20px;
 }
 
 #App {
   text-align: center;
-  margin: 40px 0;
+  margin: 10px 0;
 }
 
 #game {
@@ -86,8 +89,18 @@ p {
   grid-column: 1/2;
 }
 
+@media only screen and (min-width: 450px) {
+  #arrows {
+    display: none;
+  }
+}
+
 #instruction {
   margin-bottom: 50px;
+}
+
+#instruction h2 {
+  margin: 0;
 }
 
 #instruction a {
