@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
 const Game = () => {
-	const [board, setBoard] = useState(null);
+	const [board, setBoard] = useState();
+	const [gameMessage, setGameMessage] = useState(null);
 
 	let tiles = [];
 	let currentScore = 0;
@@ -30,11 +31,11 @@ const Game = () => {
 			});
 		}
 		// else keep current state data
-		else startGame();
+		else initBoard();
 	}, []);
 
 	// Initialize the Board
-	const startGame = () => {
+	const initBoard = () => {
 		// create a random index from 0-15
 		let random = Math.floor(Math.random() * 16);
 		const tilesArr = [];
@@ -56,9 +57,14 @@ const Game = () => {
 			})
 		);
 		// update the state for component to rerender
-		setBoard({ tiles: tilesArr, best: localBest, score: 0 });
+		setBoard({
+			tiles: tilesArr,
+			best: localBest,
+			score: 0,
+		});
 	};
 
+	//**** WRONG ATM OFF BY ONE MOVE */
 	// Check if any tile is movable to bottom or right
 	// only bottom or right since the iteration is done
 	// top to bottom, left to right
@@ -76,7 +82,7 @@ const Game = () => {
 			// if the bottom tile exist and the bottom
 			// tile has same value as tile at index,
 			// return true. If not, return false
-			if (index + 4 < 15 && tiles[index] === tiles[index + 4]) return true;
+			if (index + 4 <= 15 && tiles[index] === tiles[index + 4]) return true;
 			else return false;
 		};
 
@@ -86,12 +92,15 @@ const Game = () => {
 		// return -> true if two tiles are same else
 		// false
 		const rightMovable = (index) => {
-			const initialRow = index / 4;
+			const initialRow = Math.floor(index / 4);
 			// if the tile at right is not on same row as
 			// current tile or current tile and tile on
 			// right are not the same, return false. If
 			// not, return true
-			if ((index + 1) / 4 !== initialRow || tiles[index] !== tiles[index + 1])
+			if (
+				Math.floor((index + 1) / 4) !== initialRow ||
+				tiles[index] !== tiles[index + 1]
+			)
 				return false;
 			return true;
 		};
@@ -112,9 +121,24 @@ const Game = () => {
 		return isMovable;
 	};
 
+	// followup after game is over
 	const gameOver = () => {
 		console.log('game over');
-		startGame();
+		$('.message').slideDown();
+		setGameMessage('Game Over');
+	};
+
+	// if every tile is populated, and no
+	// possibility to move any way, game over
+	// checks after board is updated
+	useEffect(() => {
+		if (tiles.every((tile) => tile > 0) && !movable()) gameOver();
+	}, [board]);
+
+	// restarts the game: reinitialize the board
+	const handleRestart = () => {
+		$('.message').fadeOut();
+		initBoard();
 	};
 
 	// Update the state for component to rerender the
@@ -153,12 +177,13 @@ const Game = () => {
 		);
 		// ========== LOCAL STORAGE ==========
 
-		// if every tile is populated, and no
-		// possibility to move any way, game over
-		if (tiles.every((tile) => tile > 0) && !movable()) gameOver();
-		// else, update the state for component to
+		// update the state for component to
 		// rerender
-		else setBoard({ tiles: tiles, best: maxScore, score: currentScore });
+		setBoard({
+			tiles: tiles,
+			best: maxScore,
+			score: currentScore,
+		});
 	};
 
 	// ********** HELPER FUNCTIONS **********
@@ -526,14 +551,7 @@ const Game = () => {
 	$('body').off('keyup');
 	$('body').on('keyup', (e) => {
 		// prevent scrolling
-		// if (['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
-		// console.log(e);
-		// e.preventDefault();
-		// }
 		e.preventDefault();
-		// console.log(e);
-		// console.log(e.target)
-		// console.log(e.key)
 		handleKeyPress(e.key);
 	});
 
@@ -544,15 +562,27 @@ const Game = () => {
 			<h1>2048</h1>
 			<main>
 				<section>
+					{gameMessage && (
+						<div className='message'>
+							<h2>{gameMessage}</h2>
+						</div>
+					)}
 					{board && (
 						<div id='scores'>
-							<h3 className='score'>BEST : {board.best}</h3>
-							<h3 className='score'>SCORE : {board.score}</h3>
+							<h3 className='score'>best : {board.best}</h3>
+							<h3 className='score'>score : {board.score}</h3>
+							<button onClick={handleRestart}>
+								<p>restart</p>
+							</button>
 						</div>
 					)}
 					<div id='game'>
 						{board && (
-							<Grid tiles={board.tiles} handleKeyPress={handleKeyPress} />
+							<Grid
+								tiles={board.tiles}
+								latest={board.latest}
+								handleKeyPress={handleKeyPress}
+							/>
 						)}
 					</div>
 					{board && (

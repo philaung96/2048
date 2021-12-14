@@ -34,6 +34,41 @@ p {
   margin: 10px 0;
 }
 
+.message {
+  display: block;
+  margin: 0 auto 10px auto;
+  z-index: 1;
+}
+
+.message h2 {
+  margin: 0;
+}
+
+#scores {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 350px;
+  margin: 0 auto;
+}
+
+#scores button {
+  background-color: black;
+  margin: 15px 0;
+  border-radius: 5px;
+}
+
+#scores button:hover {
+  cursor: pointer
+}
+
+#scores button p {
+  -webkit-background-clip: none;
+  -webkit-text-fill-color: white;
+  font-size: 15px;
+}
+
+
 #grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -54,14 +89,6 @@ p {
   color: #03045e;
   border-radius: 10px;
   border: 3px solid #03045e;
-}
-
-#scores {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 320px;
-  margin: 0 auto;
 }
 
 #arrows {
@@ -115,5 +142,13 @@ p {
   #instruction {
     margin: 50px 0;
     text-align: left;
+    height: 360px;
+  }
+
+  #instruction h2,
+  #instruction p,
+  #instruction i {
+    -webkit-background-clip: none;
+    -webkit-text-fill-color: black;
   }
 }
