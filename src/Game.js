@@ -527,8 +527,8 @@ const Game = () => {
 	$('body').on('keyup', (e) => {
 		// prevent scrolling
 		// if (['Space', 'ArrowUp', 'ArrowDown'].indexOf(e.code) > -1) {
-			// console.log(e);
-			// e.preventDefault();
+		// console.log(e);
+		// e.preventDefault();
 		// }
 		e.preventDefault();
 		// console.log(e);
@@ -540,21 +540,35 @@ const Game = () => {
 	// ========== END OF FUNCTIONALITY ==========
 
 	return (
-		<div id='game'>
+		<>
 			<h1>2048</h1>
-			{board && (
-				<Grid
-					tiles={board.tiles}
-					score={board.score}
-					best={board.best}
-					handleKeyPress={handleKeyPress}
-				/>
-			)}
-			{board && (
-				<Arrows up={moveUp} right={moveRight} down={moveDown} left={moveLeft} />
-			)}
-			<Instruction />
-		</div>
+			<main>
+				<section>
+					{board && (
+						<div id='scores'>
+							<h3 className='score'>BEST : {board.best}</h3>
+							<h3 className='score'>SCORE : {board.score}</h3>
+						</div>
+					)}
+					<div id='game'>
+						{board && (
+							<Grid tiles={board.tiles} handleKeyPress={handleKeyPress} />
+						)}
+					</div>
+					{board && (
+						<Arrows
+							up={moveUp}
+							right={moveRight}
+							down={moveDown}
+							left={moveLeft}
+						/>
+					)}
+				</section>
+				<aside id='instruction'>
+					<Instruction />
+				</aside>
+			</main>
+		</>
 	);
 };
 

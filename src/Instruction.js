@@ -1,13 +1,12 @@
 const Instruction = () => {
 	return (
-		<div id='instruction'>
+		<>
 			<h2>How To Play</h2>
 			<p>
-				Use <i>Arrow Keys</i>, Or <i>Arrow Buttons</i> To Move The Tiles
+				Use <i>Arrow Keys</i>, Or <i>Arrow Buttons</i> To Move The Tiles. Tiles
+				With The Same Number Will Combine Into One.
 				<br />
-				Tiles With The Same Number Will Combine Into One
-				<br />
-				Check Out The Git Hub Repo.
+				Check Out The Git Hub Repo
 				<br />
 				<a
 					href='https://github.com/philaung96/2048'
@@ -16,7 +15,7 @@ const Instruction = () => {
 					<i>HERE</i>
 				</a>
 			</p>
-		</div>
+		</>
 	);
 };
 
