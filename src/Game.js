@@ -1,12 +1,11 @@
 import Grid from './Grid';
 import Arrows from './Arrows';
-import Instruction from './Instruction';
 import { useState, useEffect } from 'react';
 import $ from 'jquery';
 
-const Game = () => {
+const Game = (props) => {
 	const [board, setBoard] = useState();
-	const [gameMessage, setGameMessage] = useState(null);
+	const [gameMessage, setGameMessage] = useState([]);
 
 	let tiles = [];
 	let currentScore = 0;
@@ -16,6 +15,8 @@ const Game = () => {
 		tiles = [...board.tiles];
 		currentScore = board.score;
 	}
+
+	if (gameMessage.length === 0) $('#game-over').fadeOut();
 
 	// ********** COMPONENT RERENDER FUNCTIONS **********
 
@@ -32,6 +33,7 @@ const Game = () => {
 		}
 		// else keep current state data
 		else initBoard();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	// Initialize the Board
@@ -123,9 +125,29 @@ const Game = () => {
 
 	// followup after game is over
 	const gameOver = () => {
-		console.log('game over');
-		$('.message').slideDown();
-		setGameMessage('Game Over');
+		// Show the game over message
+		$('#game-over').slideDown();
+
+		// Set the game over message
+		const messages = ['!!! GAME OVER !!!'];
+
+		// Find the position of current score on
+		// leaderboard
+		const position = props.leaders.findIndex(
+			(user) => currentScore > user.score
+		);
+
+		// If current score is within top 100
+		// let the user know and display position
+		if (position > -1 && position < 99) {
+			messages.push(`Congratulations! you place ${position + 1} out of 100`);
+
+			// Hide the restart button so user can't
+			// accidentally restart without add their
+			// name to top 100 list
+			$('#restart').slideUp();
+		}
+		setGameMessage(messages);
 	};
 
 	// if every tile is populated, and no
@@ -133,12 +155,51 @@ const Game = () => {
 	// checks after board is updated
 	useEffect(() => {
 		if (tiles.every((tile) => tile > 0) && !movable()) gameOver();
-	}, [board]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [board, props]);
 
 	// restarts the game: reinitialize the board
 	const handleRestart = () => {
-		$('.message').fadeOut();
+		// Hide the game over message
+		$('#game-over').fadeOut();
+		// Initialize the board
 		initBoard();
+	};
+
+	// handle when user add their name to top 100
+	// after game over
+	const handleGameOverSubmit = (e) => {
+		e.preventDefault();
+		const inputName = $('#input-name').val();
+
+		// if the name is submitted
+		if (inputName) {
+			// show the restart button
+			$('#restart').slideDown();
+			// add the name and score to database
+			fetch('https://clone48.herokuapp.com', {
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				method: 'POST',
+				body: JSON.stringify({
+					admin: process.env.REACT_APP_ADMIN_KEY,
+					user: {
+						name: inputName,
+						score: currentScore,
+					},
+				}),
+			});
+			// restart the game
+			handleRestart();
+		}
+		// if the input name is empty, do nothing and let
+		// user know to put a name
+		else {
+			$('#input-name').attr('placeholder', 'please enter a name!');
+			$('#input-name').addClass('red-placeholder');
+		}
 	};
 
 	// Update the state for component to rerender the
@@ -555,50 +616,45 @@ const Game = () => {
 		handleKeyPress(e.key);
 	});
 
+	// A message to let user know when they win or lose
+	let gameMessageJsx = gameMessage.map((message, index) => (
+		<h3 key={index}>{message}</h3>
+	));
+
 	// ========== END OF FUNCTIONALITY ==========
 
 	return (
-		<>
-			<h1>2048</h1>
-			<main>
-				<section>
-					{gameMessage && (
-						<div className='message'>
-							<h2>{gameMessage}</h2>
-						</div>
-					)}
-					{board && (
-						<div id='scores'>
-							<h3 className='score'>best : {board.best}</h3>
-							<h3 className='score'>score : {board.score}</h3>
-							<button onClick={handleRestart}>
-								<p>restart</p>
-							</button>
-						</div>
-					)}
-					<div id='game'>
-						{board && (
-							<Grid
-								tiles={board.tiles}
-								latest={board.latest}
-								handleKeyPress={handleKeyPress}
-							/>
-						)}
-					</div>
-					{board && (
-						<Arrows
-							up={moveUp}
-							right={moveRight}
-							down={moveDown}
-							left={moveLeft}
-						/>
-					)}
-				</section>
-				<aside id='instruction'>
-					<Instruction />
-				</aside>
-			</main>
-		</>
+		<section id='game'>
+			<div id='game-over'>
+				{gameMessageJsx}
+				<form onSubmit={handleGameOverSubmit}>
+					<fieldset>
+						<legend>Add Your Name To Leaderboard</legend>
+						<input type='text' placeholder='name' id='input-name' />
+						<button type='submit'>submit</button>
+					</fieldset>
+				</form>
+			</div>
+			{board && (
+				<div id='scores'>
+					<h4 className='score'>best : {board.best}</h4>
+					<h4 className='score'>score : {board.score}</h4>
+					<button id='restart' onClick={handleRestart}>
+						restart
+					</button>
+				</div>
+			)}
+			{board && (
+				<Grid
+					tiles={board.tiles}
+					latest={board.latest}
+					handleKeyPress={handleKeyPress}
+				/>
+			)}
+			{board && (
+				<Arrows up={moveUp} right={moveRight} down={moveDown} left={moveLeft} />
+			)}
+		</section>
 	);
 };
 

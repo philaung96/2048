@@ -4,7 +4,7 @@ const Grid = (props) => {
 	if (props.tiles)
 		tilesJsx = props.tiles.map((tile, index) => (
 			<div className='tile' key={index}>
-				<h2>{tile ? tile : ''}</h2>
+				<h4>{tile ? tile : ''}</h4>
 			</div>
 		));
 	return <div id='grid'>{tilesJsx && tilesJsx}</div>;

@@ -1,10 +1,11 @@
 const Instruction = () => {
 	return (
-		<>
+		<aside id='instruction'>
 			<h2>How To Play</h2>
 			<p>
-				Use <i>Arrow Keys</i>, Or <i>Arrow Buttons</i> To Move The Tiles. Tiles
-				With The Same Number Will Combine Into One.
+				- Use <i>Arrow Keys</i>, Or <i>Arrow Buttons</i> To Move The Tiles.
+				<br />
+				- Tiles With The Same Number Will Combine Into One.
 				<br />
 				Check Out The Git Hub Repo
 				<br />
@@ -15,7 +16,7 @@ const Instruction = () => {
 					<i>HERE</i>
 				</a>
 			</p>
-		</>
+		</aside>
 	);
 };
 
