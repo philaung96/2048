@@ -138,7 +138,7 @@ const Game = (props) => {
 		// If current score is within top 100
 		// let the user know and display position
 		if (position > -1 && position < 99) {
-			messages.push(`Congratulations! you place ${position + 1} out of 100`);
+			messages.push(`Congratulations! you place ${position + 1} on Top 100`);
 
 			// Hide the restart button so user can't
 			// accidentally restart without add their
