@@ -16,8 +16,6 @@ const Game = (props) => {
 		currentScore = board.score;
 	}
 
-	if (gameMessage.length === 0) $('#game-over').fadeOut();
-
 	// ********** COMPONENT RERENDER FUNCTIONS **********
 
 	// on initial load

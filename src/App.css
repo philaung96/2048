@@ -43,16 +43,18 @@ button:hover {
 }
 
 /* LEADERBOARD */
-/* #leaderboard {
-  display: none;
-} */
+#leaderboard {
+  display: block;
+  margin-top: 10px;
+}
+
 #leaderboard p {
   text-align: left;
 }
 
 /* Game Over Message */
 #game-over {
-  display: block;
+  display: none;
   margin: 0 auto;
   padding: 0 30px;
 }
@@ -127,7 +129,7 @@ button:hover {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   justify-content: center;
-  margin: 30px auto;
+  margin: 30px auto 60px auto;
   width: 150px;
   height: 150px;
 }
