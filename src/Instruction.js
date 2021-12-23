@@ -3,7 +3,11 @@ const Instruction = () => {
 		<aside id='instruction'>
 			<h2>How To Play</h2>
 			<p>
-				- Use <i>Arrow Keys</i>, Or <i>Arrow Buttons</i> To Move The Tiles.
+				- Use <i>Arrow Keys</i>
+				<span id='arrows-p'>
+					, Or <i>Arrow Buttons</i>
+				</span>{' '}
+				To Move The Tiles.
 				<br />
 				- Tiles With The Same Number Will Combine Into One.
 				<br />

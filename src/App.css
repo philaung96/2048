@@ -197,4 +197,8 @@ button:hover {
 		text-align: left;
 		height: 360px;
 	}
+
+	#arrows-p {
+		display: none;
+	}
 }
