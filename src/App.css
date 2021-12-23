@@ -1,193 +1,200 @@
 /* Targeting Elements */
 body {
-  background: linear-gradient(143deg, #9b9aff, #afb1ff);
-  color: #03045e;
+	background: linear-gradient(143deg, #9b9aff, #afb1ff);
+	color: #03045e;
 }
 
 h1 {
-  font-size: 50px;
-  margin: 20px;
+	font-size: 50px;
+	margin: 20px;
 }
 
 h2 {
-  font-size: 30px;
+	font-size: 30px;
 }
 
 h3 {
-  font-size: 25px;
+	font-size: 25px;
 }
 
 p {
-  margin: 0;
-  line-height: 1.5em;
-  font-size: 15px;
+	margin: 0;
+	line-height: 1.5em;
+	font-size: 15px;
 }
 
 button {
-  background-color: black;
-  color: white;
-  font-size: 15px;
-  padding: 5px;
-  border-radius: 5px;
+	background-color: black;
+	color: white;
+	font-size: 15px;
+	padding: 5px;
+	border-radius: 5px;
 }
 
 button:hover {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 /* Specific Targeting */
 /* APP */
 #App {
-  text-align: center;
-  margin: 10px 0;
+	text-align: center;
+	margin: 10px 0;
 }
 
 /* LEADERBOARD */
 #leaderboard {
-  display: block;
-  margin-top: 10px;
+	display: block;
+	margin-top: 10px;
 }
 
 #leaderboard p {
-  text-align: left;
+	text-align: left;
 }
 
 /* Game Over Message */
 #game-over {
-  display: none;
-  margin: 0 auto;
-  padding: 0 30px;
+	display: none;
+	margin: 0 auto;
+	padding: 0 30px;
 }
 
 #game-over h3 {
-  margin: 0;
+	margin: 0;
 }
 
 #game-over form {
-  margin-top: 10px;
+	margin-top: 10px;
 }
 
 #game-over fieldset {
-  border: 2px solid black;
-  border-radius: 10px;
+	border: 2px solid black;
+	border-radius: 10px;
 }
 
 #game-over form legend {
-  font-size: 12px;
-  font-weight: bolder;
+	font-size: 12px;
+	font-weight: bolder;
 }
 
 #input-name {
-  height: 25px;
-  margin-right: 10px;
-  background-color: lavender;
-  border-radius: 5px;
+	height: 25px;
+	margin-right: 10px;
+	background-color: lavender;
+	border-radius: 5px;
 }
 
 .red-placeholder::-webkit-input-placeholder {
-  color: red;
+	color: red;
 }
 
 /* Scores */
 #scores {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 280px;
-  margin: 0 auto;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 280px;
+	margin: 0 auto;
 }
 
 #scores button {
-  margin: 15px 0;
+	margin: 15px 0;
 }
 
 /* Grid */
 #grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  text-align: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
+	width: 300px;
+	height: 300px;
+	margin: 0 auto;
+	text-align: center;
 }
 
 .tile {
-  height: 65px;
-  width: 65px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #ffc6ff, #caffbf);
-  border-radius: 10px;
-  border: 3px solid #03045e;
+	height: 65px;
+	width: 65px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: linear-gradient(135deg, #ffc6ff, #caffbf);
+	border-radius: 10px;
+	border: 3px solid #03045e;
 }
 
 /* Arrow Buttons */
 #arrows {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  justify-content: center;
-  margin: 30px auto 60px auto;
-  width: 150px;
-  height: 150px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	justify-content: center;
+	margin: 30px auto 60px auto;
+	width: 150px;
+	height: 150px;
 }
 
 #arrow-top {
-  grid-row: 1/2;
-  grid-column: 2/3;
+	grid-row: 1/2;
+	grid-column: 2/3;
 }
 
 #arrow-right {
-  grid-row: 2/3;
-  grid-column: 3/4;
+	grid-row: 2/3;
+	grid-column: 3/4;
 }
 
 #arrow-bottom {
-  grid-row: 3/4;
-  grid-column: 2/3;
+	grid-row: 3/4;
+	grid-column: 2/3;
 }
 
 #arrow-left {
-  grid-row: 2/3;
-  grid-column: 1/2;
+	grid-row: 2/3;
+	grid-column: 1/2;
 }
 
 /* Instructions */
 #instruction {
-  margin: 0 20px 50px 20px;
+	margin: 0 20px 50px 20px;
 }
 
 #instruction a {
-  font-size: 30px;
+	font-size: 30px;
 }
 
 /* Dynamic Targeting */
 /* For screen size wider than 450 pixel */
 @media only screen and (min-width: 450px) {
+	/* Main Element */
+	main {
+		display: grid;
+		grid-template-columns: 1fr 2fr 1fr;
+		grid-template-rows: 1fr;
+	}
 
-  /* Main Element */
-  main {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-  }
+	/* Leaderboard */
+	#leaderboard {
+		display: block;
+		margin: 30px auto;
+		grid-column: 1/2;
+		grid-row: 1/2;
+	}
 
-  /* Leaderboard */
-  #leaderboard {
-    display: block;
-    margin: 30px auto;
-  }
+	#game {
+		grid-column: 2/3;
+	}
 
-  /* Arrow Buttons */
-  #arrows {
-    display: none;
-  }
+	/* Arrow Buttons */
+	#arrows {
+		display: none;
+	}
 
-  /* Instructions */
-  #instruction {
-    margin: 30px auto;
-    text-align: left;
-    height: 360px;
-  }
+	/* Instructions */
+	#instruction {
+		grid-column: 3/4;
+		margin: 30px auto;
+		text-align: left;
+		height: 360px;
+	}
 }

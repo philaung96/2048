@@ -137,13 +137,21 @@ const Game = (props) => {
 
 		// If current score is within top 100
 		// let the user know and display position
-		if (position > -1 && position < 99) {
-			messages.push(`Congratulations! you place ${position + 1} on Top 100`);
+		if (position > -1 && position <= 9) {
+			messages.push(`Congratulations! you place ${position + 1} on Top 10`);
 
 			// Hide the restart button so user can't
 			// accidentally restart without add their
 			// name to top 100 list
 			$('#restart').slideUp();
+		} else {
+			// Hide submit form
+			$('#game-over form').slideUp();
+			// Check how many points current score is
+			// off from the last position in leaderboard
+			let difference = 0;
+			if (props.leaders[9]) difference = props.leaders[9].score - currentScore;
+			messages.push(`You are ${difference} points off from top 10`);
 		}
 		setGameMessage(messages);
 	};
@@ -160,6 +168,14 @@ const Game = (props) => {
 	const handleRestart = () => {
 		// Hide the game over message
 		$('#game-over').fadeOut();
+		// Clear current data
+		const random = Math.floor(Math.random() * 16);
+		tiles = [];
+		for (let i = 0; i < 16; i++) {
+			if (i === random) tiles[i] = 2;
+			else tiles[i] = 0;
+		}
+		currentScore = 0;
 		// Initialize the board
 		initBoard();
 	};
