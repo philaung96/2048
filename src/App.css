@@ -98,6 +98,10 @@ button:hover {
 	margin: 0 auto;
 }
 
+#scores h4 {
+	margin: 0;
+}
+
 #scores button {
 	margin: 15px 0;
 }
