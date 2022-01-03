@@ -2,15 +2,18 @@
 
 ## About
 
-This is my take on the IOS game 2048. I created this app as a project for my [portfolio](https://philaung96.github.io/) as well as to get myself more practice on frontend, and a basic game logic. I chose to make a clone of this game as I fairly enjoy playing it myself.
+This is my take on the IOS game 2048. I created this app as a project for my [portfolio](https://philaung96.github.io/) as well as to get myself more practice on frontend, and a basic game logic. This app also includes a backend database for user scores hosted on Heroku using Express, MongoDB, and Mongoose. I chose to make a clone of this game as I fairly enjoy playing it myself.
 
 ## Tools
 
 - HTML
 - CSS
 - Javascript
-- React.js
 - JQuery
+- React.js
+- Express.js
+- MongoDB
+- Mongoose
 
 ## Addition Libraries
 
