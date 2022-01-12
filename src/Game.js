@@ -230,8 +230,14 @@ const Game = (props) => {
 			random = Math.floor(Math.random() * 16);
 		}
 
-		// populate the empty spot
-		tiles[random] = 2;
+		// generate a random chance to add a 2 or a 4
+		// random number from 1-1000
+		let chance = Math.ceil(Math.random() * 1000);
+		// 4-1 chance for a 2 and a 4
+		// add a 2 to new spot if chance is 1-800
+		if (chance <= 800) tiles[random] = 2;
+		// add a 4 if chance is 801-1000
+		else tiles[random] = 4;
 
 		// ========== LOCAL STORAGE ==========
 		const localData = JSON.parse(localStorage.getItem('data'));
