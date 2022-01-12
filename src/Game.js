@@ -35,23 +35,32 @@ const Game = (props) => {
 	}, []);
 
 	// Initialize the Board
+	// game starts with a 2 and 4 at random indices
+	// the rest of the board is 0's
 	const initBoard = () => {
+		const tilesArr = [];
+		// initialize the array with 0's
+		for (let i = 0; i < 16; i++) tilesArr[i] = 0;
 		// create a random index from 0-15
 		let random = Math.floor(Math.random() * 16);
-		const tilesArr = [];
-		// place 2 at the random index
-		// and 0 at the rest
-		for (let i = 0; i < 16; i++) {
-			if (i === random) tilesArr[i] = 2;
-			else tilesArr[i] = 0;
-		}
+		// place a 2 at random index
+		tilesArr[random] = 2;
+		// keep track of previous random index
+		const prevRan = random;
+		// generate a new random index which isn't prev
+		do {
+			random = Math.floor(Math.random() * 16);
+		} while (random === prevRan);
+		// set the tile at new random index to 4
+		tilesArr[random] = 4;
+
 		const data = JSON.parse(localStorage.getItem('data'));
 		let localBest = 0;
 		if (data) localBest = data.localBest;
 		localStorage.setItem(
 			'data',
 			JSON.stringify({
-				localTiles: [...tiles],
+				localTiles: [...tilesArr],
 				localBest: localBest,
 				localScore: currentScore,
 			})
@@ -168,13 +177,7 @@ const Game = (props) => {
 	const handleRestart = () => {
 		// Hide the game over message
 		$('#game-over').fadeOut();
-		// Clear current data
-		const random = Math.floor(Math.random() * 16);
-		tiles = [];
-		for (let i = 0; i < 16; i++) {
-			if (i === random) tiles[i] = 2;
-			else tiles[i] = 0;
-		}
+
 		currentScore = 0;
 		// Initialize the board
 		initBoard();
