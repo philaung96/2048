@@ -11,7 +11,7 @@ const Instruction = () => {
 				<br />
 				- Tiles With The Same Number Will Combine Into One.
 				<br />
-				Check Out The Git Hub Repo
+				- Check Out The Git Hub Repo
 				<br />
 				<a
 					href='https://github.com/philaung96/2048'
