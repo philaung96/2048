@@ -19,6 +19,15 @@ const Instruction = () => {
 					rel='noreferrer'>
 					<i>HERE</i>
 				</a>
+				<br />
+				- Check Out My Portfolio
+				<br />
+				<a
+					href='https://philaung96.github.io/'
+					target='_blank'
+					rel='noreferrer'>
+					<i>HERE</i>
+				</a>
 			</p>
 		</aside>
 	);
