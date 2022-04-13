@@ -45,11 +45,18 @@ button:hover {
 /* LEADERBOARD */
 #leaderboard {
 	display: block;
-	margin-top: 5%;
+	margin: 5% auto;
 }
 
-#leaderboard p {
+#top-ten {
+	display: flex;
+	flex-direction: column;
 	text-align: left;
+	padding: 0;
+}
+
+#top-ten li {
+	margin-left: 40%;
 }
 
 /* Game Over Message */
@@ -196,6 +203,10 @@ button:hover {
 	/* Arrow Buttons */
 	#arrows {
 		display: none;
+	}
+
+	#top-ten li {
+		margin-left: 3%;
 	}
 
 	/* Instructions */
