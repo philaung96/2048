@@ -45,7 +45,7 @@ button:hover {
 /* LEADERBOARD */
 #leaderboard {
 	display: block;
-	margin-top: 10px;
+	margin-top: 5%;
 }
 
 #leaderboard p {
@@ -135,8 +135,8 @@ button:hover {
 	grid-template-rows: 1fr 1fr 1fr;
 	justify-content: center;
 	margin: 30px auto 60px auto;
-	width: 150px;
-	height: 150px;
+	width: 200px;
+	height: 200px;
 }
 
 #arrow-top {
